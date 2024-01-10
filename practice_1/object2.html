@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var grades = {
+            'list': {'egoing':10,'k8805':6,'sorialgi':80},
+            'show': function(){
+                console.log(this.list);//this : grades
+            }
+        }
+        alert(grades['list']['egoing']);
+        grades['show']();//== grades.show();
+    </script>
+</body>
+</html>
