@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/KakaoTalk_20240110_224708883.jpg">
+    <title>CTC</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/68d8f69824.js" crossorigin="anonymous"></script>
+    <style>
+        
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+}
+
+.inner{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    
+}
+
+header{
+    width: 100%;
+}
+
+.head_container{
+    width: 100%;
+    height: 7rem;
+    background-color: white;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.head_title{
+    font-size: 2.4rem;
+    padding: 0.3rem;
+    padding-bottom: 0.9rem;
+    justify-content: center;
+    border-bottom: 1px solid black; 
+}
+
+.header_list_container{
+    justify-content: space-between;
+    padding-left: 20%;
+    padding-right: 20%;
+    list-style: none;
+    display: flex;
+    line-height: 2rem;
+}
+
+.header_list_container a{
+    color: black;
+}
+
+.container{
+    width: 100%;
+    height: 617px;
+    margin: auto;
+}
+
+.slider-container {
+    width: 80%;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(204, 255, 193);
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    
+}
+
+.slide_content{
+    display: flex;
+    width: 90%;
+    height: 500px;
+    margin: auto;
+    align-items: center;
+}
+
+.slide_content img{
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+}
+
+.slide_p{
+    line-height: 40px;
+    margin-left: 40px;
+    font-size: 20px;
+}
+
+.slide_p span{
+    font-size: 15px;
+    color: gray;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="inner">
+                <div class="head_container">
+                    <div class="head_title"><img src="static\KakaoTalk_20240111_004956754.png" style="width: 3rem; line-height: 2.4rem;">CTC</div>
+                    <ul class="header_list_container">
+                        <li class="header_list ex"><a href="/">홈</a></li>
+                        <li class="header_list">|</li>
+                        <li class="header_list"><a href="/report">외래종 신고</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    
+        <main>
+            <div class="container">
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <div class="slide">
+                            <div class="slide_content">
+                                <img src="https://flexible.img.hani.co.kr/flexible/normal/730/519/imgdb/original/2023/0905/20230905501346.jpg" alt="Image 1">
+                                <div class="slide_p">
+                                    <p>
+                                        유엔 보고서에 따르면, 전 세계에서 퍼져가는 외래 유해 생물종으로<br>
+                                        인한 경제적 피해는 약 560조원에 이르며, <br>
+                                        이로 인해 환경 파괴와 식량 생산에 직접적인 악영향이 나타났다. <br>
+                                        보고서는 특히 원주민 생태계에 미치는 영향이 크다고<br>
+                                        지적하고 있으며, 최근 하와이섬의 산불 역시 외래종이<br>
+                                        더욱 큰 문제로 부각되고 있다.<br>
+                                        <span>출처 : 한겨레“생태계 위협 외래종 피해 560조원…식량 생산에도 악영향”</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slide">
+                            <div class="slide_content">
+                                <img src="data:image/jpeg;base64,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" alt="Image 2">
+                                <div class="slide_p">
+                                    <p>
+                                        한국에서 유럽과 북아프리카 원산의 표범무늬민달팽이가<br>
+                                        대규모로 발견되어,  이로 인한 농작물 피해 가능성이<br>
+                                        우려되고 있습니다. <br>
+                                        국립생태원은 내년부터 표범무늬민달팽이의 먹이 선호도와 <br>
+                                        생태계 영향을 연구할 예정이며, 국내에 유입된 외래종이<br>
+                                        12년 동안 3배 증가한 상황에서 신속한 대처와 광범위한 <br>
+                                        연구가 필요하다고 강조되고 있습니다.<br>
+                                        <span>출처 : YTN "[단독] 한밤중 수풀과 물가에 우글우글...외래종 표범무늬민달팽이 서식 확인"</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slide">
+                            <div class="slide_content">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPSEb9VkGLkkKi-EnuDx9Nx9ezhI7Qw_fSMQ&usqp=CAU" alt="Image 3">
+                                <div class="slide_p">
+                                    <p>
+                                        서산시 동문2동의 한 주택에서 흰개미로 인해 목조 구조물에 피해가<br>
+                                        발생하고 주민은 피해를 호소하고 있다. <br>
+                                        흰개미는 몇 년 전부터 출현하며 올해에는 집 내부 기둥까지<br>
+                                        파괴했다.<br>
+                                        현재 주민에게 피해 발생 시 즉시 연락을 달라는 안내가 있으며, <br>
+                                        동내에서는 흰개미에 대한 관심이 높아지고 있다. <br>
+                                        최근 서울에서는 외래종인 마른나무흰개미가 나타나<br>
+                                        국립생물자원관과 국립생태원이 조사 중이다.<br>
+                                        <span>출처 : 충청뉴스라인 "서산서도 흰개미 피해 사례 발생 ‘촉각’"</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Add more slides as needed -->
+                    </div>
+                    <button class="arrow prev" onclick="prevSlide()">❮</button>
+                    <button class="arrow next" onclick="nextSlide()">❯</button>
+                </div>
+            </div>
+        </main>
+    
+
+    <script>
+                
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const wrapper = document.querySelector('.slider-wrapper');
+
+        function showSlide(index) {
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+
+            const translateValue = -currentIndex * 100 + '%';
+            wrapper.style.transform = 'translateX(' + translateValue + ')';
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+
+    </script>
+</body>
+</html>

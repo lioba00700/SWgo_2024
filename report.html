@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/KakaoTalk_20240110_224708883.jpg">
+    <title>CTC</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-repeat: no-repeat;
+}
+
+.body{
+    display: flex;
+}
+
+.aside{
+    width: 25%;
+    height: 100vh;
+    background-color: lightgray;
+}
+
+.main{
+    width: 50%;
+    height: 100vh;
+}
+
+.container{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.header_home_icon{
+    width: 100%;
+    height: 70px;
+    line-height: 150px;
+    padding: 0 5px;
+}
+
+.home_icon{
+    width: 60px;
+    height: 60px;
+}
+
+.header_title{
+    width: 100%;
+    height: 120px;
+    text-align: center;
+}
+
+.header_title p{
+    font-size: 60px;
+}
+
+.main_container{
+    width: 100%;
+    height: 335px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.main_container p{
+    font-size: 23px;
+}
+
+#dropArea{
+    width: 500px;
+    height: 300px;
+    margin: auto;
+    text-align: center;
+    outline: 1px solid black;
+    border-radius: 10px;
+}
+
+.button_container{
+    width: 80%;
+    height: 120px;
+    line-height: 120px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button_img{
+    padding: 15px 67px;
+    background-color: #57CC99;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.button_load{
+    padding: 15px 59px;
+    background-color: #A3ED80;
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.button_img:hover{
+    background-color: #48a47c;
+}
+
+.button_load:hover{
+    background-color: #78b05e;
+}
+#dropArea img {
+    width: 100%; /* 폼의 폭에 맞춤 */
+    height: auto; /* 비율 유지 */
+    max-height: 300px; /* 최대 높이 설정 */
+    object-fit: contain; /* 비율 유지하며 영역에 맞게 조정 */
+}
+@media (max-width: 800px){
+    .aside{
+        display: none;
+    }
+    
+    .main{
+        width: 100%;
+        align-items: center;
+    }
+
+    .header_title p{
+        font-size: 40px;
+    }
+
+    #dropArea{
+        width: 80%;
+    }
+
+    .input_image{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .button_container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+}
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div class="aside"></div>
+        <div class="main">  
+            <div class="container">
+                <div class="header_home_icon">
+                    <a href="/">
+                        <img class="home_icon" src="/static/home.png" alt="homeIcon">
+                    </a>
+                </div>
+                <div class="header_title">
+                    <p>외래종 구별</p>
+                </div>
+            </div>
+
+            <div class="main_container">
+                <p id="speciesName">↓여기에 파일을 끌어다 놓으세요</p>
+
+                <div id="dropArea" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)">
+                    <form id="upload-form">
+                        <input type="file" id="imageInput" name="file" onchange="previewImage()" style="display: none;">
+                    </form>
+                    <img id="previewImage" class="input_image" style="display: none;">
+                </div>
+            </div>
+            
+
+            <div class="button_container">
+                <div>
+                    <label class="button_img" for="imageInput">사진파일 불러오기</label>
+                    <input type="file" id="imageInput" onchange="previewImage()" style="display: none;">
+                </div>
+                <div>
+                    <button class="button_load" id="checkButton">외래종 사진 확인하기</button>
+                </div>
+                <div style="color:crimson;">
+                    <button class="button_report" id="reportButton" style="display: none;" onclick="location.href='/email'">신고하기</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="aside">
+            
+        </div>
+    </div>
+
+<!-- 결과 출력 영역 -->
+
+
+<script>
+
+document.getElementById("checkButton").addEventListener("click", function() {
+    var file = document.getElementById("imageInput").files[0];
+    if (file) {
+        sendImageToServer(file);
+    } else {
+        alert("사진을 먼저 선택해주세요.");
+    }
+});
+
+function handleResult(data) {
+    if (data.speciesName) {
+        document.getElementById("speciesName").textContent = "감별된 종: " + data.speciesName;
+    } else {
+        document.getElementById("speciesName").textContent = "↓여기에 파일을 끌어다 놓으세요";
+    }
+}
+
+function dragOverHandler(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = 'copy';
+}
+
+function dropHandler(ev) {
+    ev.preventDefault();
+    if (ev.dataTransfer.items) {
+        if (ev.dataTransfer.items[0].kind === 'file') {
+            var file = ev.dataTransfer.items[0].getAsFile();
+            previewAndUploadImage(file);
+        }
+    } else {
+        previewAndUploadImage(ev.dataTransfer.files[0]);
+    }
+}
+
+function previewImage() {
+    var file = document.getElementById('imageInput').files[0];
+    previewAndUploadImage(file);
+}
+
+function previewAndUploadImage(file) {
+    displayImage(file);
+    sendImageToServer(file);
+}
+
+function displayImage(file) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        document.getElementById('previewImage').src = event.target.result;
+        document.getElementById('previewImage').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+function handleResult(data) {
+    // 서버로부터 받은 종의 이름을 표시
+    if (data.speciesName) {
+        document.getElementById("speciesName").textContent = "감별된 종: " + data.speciesName;
+    } else {
+        document.getElementById("speciesName").textContent = "↓여기에 파일을 끌어다 놓으세요";
+    }
+
+    // 신고 버튼 표시 여부 결정
+    const disruptiveSpecies = ["Chelydra serpentina", "Pseudemys concinna", "Macrochelys temminckii", "Mauremys sinensis", "Pseudemys nelsoni", "Trachemys"];
+    const isDisruptive = disruptiveSpecies.includes(data.speciesName);
+
+    if (isDisruptive) {
+        document.getElementById("reportButton").style.display = "block";
+    } else {
+        document.getElementById("reportButton").style.display = "none";
+    }
+}
+
+function sendImageToServer(file) {
+    var formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        handleResult(data); // 서버로부터 받은 데이터를 handleResult 함수에 전달
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+</script>
+
+</body>
+</html>

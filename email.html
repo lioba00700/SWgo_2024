@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sendEmail</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <link rel="stylesheet" href="email.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<style>
+    
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    
+}
+.form_container{
+    width: 80%;
+    margin: auto;
+    text-align: center;/*가운데 정렬*/
+    margin-top: 5rem;
+    
+}
+.page_title{
+    font-size: 35px;
+    margin-bottom: 3rem;
+}
+.name_tel_box{
+    margin-bottom: 7px;
+}
+.name_tel_box input{
+    width: 30%;
+    height: 40px;
+    padding-left: 10px;
+}
+.inrow_container{
+    justify-content: center;
+}
+.inrow_container input,textarea{
+    display: block;
+    margin: auto;
+    margin-bottom: 7px;
+    width: 60%;
+    height: 40px;
+    padding-left: 10px;
+}
+.inrow_container textarea{
+    padding-top: 10px;
+    height: 7rem;
+}
+.btn{
+    margin-top: 7%;
+    background-color: #3EC188;
+    color: white;
+    border-color: #A3ED80;
+    padding: 1rem 3.5rem;
+}
+
+@media screen and (min-width:500px){
+    .form_container{
+        max-width: 2000px;
+    }
+}
+
+@media screen and (max-width:500px){
+    .form_container{
+        min-width: 100px;/*최소 사이즈*/
+        margin-top: 5rem;
+    }
+    .name_tel_box{
+        margin-top: 10%;
+        margin-bottom: 10px;
+    }
+    .name_tel_box input{
+        display: block;
+        margin: auto;/*가운데 정렬*/
+        width: 80%;
+        margin-top: 10px;
+    }
+    
+    .inrow_container input,textarea{
+        margin-bottom: 10px;
+        width: 80%;
+        height: 40px;
+        padding-left: 10px;
+    }
+
+}
+</style>
+</head>
+<body>
+    <form>
+        <div class="form_container">
+            <div class="page_title">외래종 신고</div>
+            <div class="input_box">
+                <div class="name_tel_box">
+                    <input type="text" name="name" class="inputField1" required placeholder="신고자 성함" >
+                    <input type="text" name="phone" placeholder="전화번호(선택)">
+                </div>
+                <div class="inrow_container">
+                    <input type="text" name="email" class="inputField2" required placeholder="이메일">
+                    <input type="text" name="discovery_area" class="inputField3" placeholder="발견 지역"required>
+                    <input type="text" name="discovery_place" class="inputField4" placeholder="발견 장소"required>
+                    <input type="text" name="mail_title" class="inputField5" placeholder="제목"required>
+                    <textarea name="message" rows="5" class="inputField6" placeholder="발견 상황"required></textarea>
+                </div>
+            </div>
+            <input type="button" name="submit" class="btn white" value="신고하기"/>
+        </div>
+        
+    </form>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {//문서가 준비되면 매개변수로 넣은 콜백 함수를 실행하라는 의미
+      emailjs.init("2ZTA5oydKFIe-cAOr");//키
+        
+        $('input[name=submit]').click(function(){//신고하기 버튼을 클릭했을 때
+            var inputVal1 = $(".inputField1").val(); // 입력 필드의 값 가져오기
+            var inputVal2 = $(".inputField2").val(); // 입력 필드의 값 가져오기
+            var inputVal3 = $(".inputField3").val(); // 입력 필드의 값 가져오기
+            var inputVal4 = $(".inputField4").val(); // 입력 필드의 값 가져오기
+            var inputVal5 = $(".inputField5").val(); // 입력 필드의 값 가져오기
+            var inputVal6 = $(".inputField6").val(); // 입력 필드의 값 가져오기
+
+            if (inputVal1.trim() === ""||inputVal2.trim() === ""||inputVal3.trim() === ""||inputVal4.trim() === ""||inputVal5.trim() === ""||inputVal6.trim() === "") {
+            // 필수 입력 필드에 값이 없으면 폼 제출 방지
+                event.preventDefault(); // 이벤트 중단
+                alert("필수 입력 필드에 값을 입력하세요.");
+            
+            } else {
+                alert('전송되었습니다.');
+                var templateParams = {   //객체 생성
+                //각 요소는 emailJS에서 설정한 템플릿과 동일한 명으로 작성!
+                //고정된 값
+                to_email: 'aaaa7605aa@gmail.com',//test를 위해서 팀장 주소로 바꿔놓음
+
+                //받아온 값
+                mail_title: $('input[name=mail_title]').val(),
+                name: $('input[name=name]').val(),
+                email : $('input[name=email]').val(),
+                phone: $('input[name=phone]').val(), 
+                discovery_area: $('input[name=discovery_area]').val(), 
+                discovery_place: $('input[name=discovery_place]').val(), 
+                message : $('textarea[name=message]').val()
+            };
+
+                emailjs.send('gmail', 'template_w2pl6go', templateParams)//emailJS를 사용해 이메일 전송
+                //emailjs.send('service ID', 'template ID', 보낼 내용이 담긴 객체)
+                .then(function(response) {//전송 성공 시 실행되는 콜백 함수
+            console.log('이메일 전송 성공', response.status, response.text);
+                alert('이메일이 성공적으로 전송되었습니다.');
+            }, 
+            function(error) {//전송 실패 시 실행되는 콜백 함수
+            console.log('이메일 전송 실패', error);
+                alert('이메일 전송 중 오류가 발생했습니다.');
+            });
+        };
+    });
+});
+</script>
+</body>
+</html>
